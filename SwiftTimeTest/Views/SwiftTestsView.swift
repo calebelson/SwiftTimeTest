@@ -8,38 +8,36 @@
 import SwiftUI
 
 struct SwiftTestsView: View {
-    @Binding var swiftTestsSuccessful: Bool
+    @Binding var timers: [TimerModel]
     private let timer: TimerModel
+    private let start: Date
+    @Environment(\.dismiss) var dismiss
     
-    init(swiftTestsSuccessful: Binding<Bool>) {
-        timer = TimerModel(viewTested: "SwiftTestView", testNumber: 1)
-        timer.startTimer()
-        self._swiftTestsSuccessful = swiftTestsSuccessful
+    init(timers: Binding<[TimerModel]>, start: Date) {
+        self.start = start
+        timer = TimerModel(viewTested: "SwiftTestView", testNumber: timers.count)
+        self._timers = timers
     }
     
     var body: some View {
         VStack {
             Text("Swift tests")
-            
-            Button("Run swift tests") {
-                swiftTestsSuccessful = !swiftTestsSuccessful
-            }
-            
-            Text("Swift tests successful: \(swiftTestsSuccessful)")
         }
         .onAppear {
+            timer.setStartTime(start)
             timer.stopTimer()
-            timer.exportTime()
+            timers.append(timer)
+            dismiss()
         }
     }
 }
 
 #Preview {
     struct Preview: View {
-        @State var swiftTestsSuccessful = true
+        @State var timers = [TimerModel(viewTested: "SwiftTestView", testNumber: 1)]
         
         var body: some View {
-            SwiftTestsView(swiftTestsSuccessful: $swiftTestsSuccessful)
+            SwiftTestsView(timers: $timers, start: Date())
         }
     }
 

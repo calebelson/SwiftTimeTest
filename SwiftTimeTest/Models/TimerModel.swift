@@ -19,7 +19,9 @@ class TimerModel {
     }
     
     
-    
+    func setStartTime(_ date: Date) {
+        initTime = date
+    }
     
     func startTimer() {
         initTime = Date()
@@ -29,13 +31,21 @@ class TimerModel {
         finishTime = Date()
     }
     
-    func getTimeToRun() -> TimeInterval {
+    func getDuration() -> TimeInterval {
         guard let initTime, let finishTime else { return 0 }
         
         return finishTime.timeIntervalSince(initTime)
     }
     
-    func exportTime() {
-        print(getTimeToRun())
+    func getNameAndTestNumber() -> String {
+        return viewTested + "_\(testNumber)"
+    }
+    
+    func getStartTime() -> Date {
+        return initTime ?? Date()
+    }
+    
+    func getEndTime() -> Date {
+        return finishTime ?? Date()
     }
 }
