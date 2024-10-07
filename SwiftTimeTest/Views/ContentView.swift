@@ -11,7 +11,7 @@ import SwiftData
 struct ContentView: View {
     @State var swiftTestsSuccessful = false
     @State var flutterTestsSuccessful = false
-    @State var timers = [TimerModel(viewTested: "", testNumber: 0)]
+    @State var timers: [TimerModel] = []
     @State var shareDisabled = true
     @State private var viewsToTest = NavigationPath()
     
@@ -21,35 +21,24 @@ struct ContentView: View {
                 Button("Start Tests") {
                     viewsToTest.append(timers.count)
                 }
-                .disabled(timers.count == 5)
-                .opacity(timers.count == 1 ? 1 : 0)
+                .disabled(timers.count != 0)
+                .opacity(timers.count == 0 ? 1 : 0)
                 .navigationDestination(for: Int.self) { i in
-                    if i < 5 {
+                    switch i {
+                    case 0...4:
                         SwiftTestsView(timers: $timers, start: Date())
                             .onDisappear {
                                 if timers.count <= 5 {
+                                    print(timers.count, viewsToTest)
                                     viewsToTest.append(timers.count)
                                 }
                             }
                             .navigationBarBackButtonHidden(true)
-                    } else {
+                    default:
                         SendDataView(timers: $timers)
                             .navigationBarBackButtonHidden(true)
                     }
-
                 }
-//                
-//                Spacer()
-//                
-//                Button("Then press here") {
-//                    addAllTimers()
-//                    
-//                    shareDisabled = false
-//                }
-//                .disabled(timers.count != 5 || !shareDisabled)
-//                .opacity(timers.count == 5 ? 1 : 0)
-//                
-//                Spacer()
             }
         }
     }

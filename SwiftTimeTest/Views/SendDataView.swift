@@ -21,8 +21,8 @@ struct SendDataView: View {
     }
     
     func addAllTimers() {
-        for (index, timer) in timers.enumerated() where index > 0 {
-            print("start: \(timer.getStartTime()), end: \(timer.getEndTime()), viewTested: \(timer.getNameAndTestNumber()), duration: \(timer.getDuration())")
+        for timer in timers {
+            print("viewTested: \(timer.getNameAndTestNumber()), start: \(timer.getStartTime()), end: \(timer.getEndTime()), duration: \(timer.getDuration())")
             
             data.addData(timer: timer)
         }
