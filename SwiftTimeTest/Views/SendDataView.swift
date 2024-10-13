@@ -17,13 +17,11 @@ struct SendDataView: View {
     }
     
     var body: some View {
-        ShareLink("Finally, send the data", item: data.getAllData(), preview: SharePreview("Test Data"))
+        ShareLink("Finally, send the data", item: data.getFileName(), preview: SharePreview("Test Data"))
     }
     
     func addAllTimers() {
         for timer in timers {
-            print("viewTested: \(timer.getNameAndTestNumber()), start: \(timer.getStartTime()), end: \(timer.getEndTime()), duration: \(timer.getDuration())")
-            
             data.addData(timer: timer)
         }
     }
@@ -34,7 +32,6 @@ struct SendDataView: View {
         @State var timers = [TimerModel(viewTested: "SwiftTestView", testNumber: 1)]
         
         var body: some View {
-            SendDataView(timers: $timers)
             SendDataView(timers: $timers)
         }
     }

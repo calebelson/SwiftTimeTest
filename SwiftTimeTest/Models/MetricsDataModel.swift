@@ -21,14 +21,38 @@ class MetricsData {
     }
     
     func addData(timer: TimerModel) {
-        self.allData.append(timer.getNameAndTestNumber() + """
-                            : start: \(timer.getStartTime()),
-                              end: \(timer.getEndTime()),
+        self.allData.append("""
+                            \(timer.getNameAndTestNumber()):
+                              start: \(timer.getStartTime())
+                              end: \(timer.getEndTime())
                               duration: \(timer.getDuration())
                             """)
     }
     
-    func getAllData() -> String {
+    private func writeToFile() -> URL {
+        let str = joinAllData()
+        let filename = getDocumentsDirectory().appendingPathComponent("SwiftTimeTest.txt")
+
+        do {
+            try str.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+            print(error)
+        }
+        
+        return filename
+    }
+    
+    func getFileName() -> URL {
+        return writeToFile()
+    }
+    
+    private func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    private func joinAllData() -> String {
         let joined = allData.joined(separator: "\n")
         return joined
     }

@@ -29,7 +29,6 @@ struct ContentView: View {
                         SwiftTestsView(timers: $timers, start: Date())
                             .onDisappear {
                                 if timers.count <= 5 {
-                                    print(timers.count, viewsToTest)
                                     viewsToTest.append(timers.count)
                                 }
                             }
