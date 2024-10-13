@@ -9,10 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State var swiftTestsSuccessful = false
-    @State var flutterTestsSuccessful = false
     @State var timers: [TimerModel] = []
-    @State var shareDisabled = true
     @State private var viewsToTest = NavigationPath()
     
     var body: some View {
